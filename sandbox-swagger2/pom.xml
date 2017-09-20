@@ -2,10 +2,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.dgc.sandbox.swagger</groupId>
-    <artifactId>sandbox-swagger</artifactId>
+    <groupId>org.dgc.sandbox.swagger2</groupId>
+    <artifactId>sandbox-swagger2</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
+
+    <name>sandbox-swagger2</name>
+    <url>http://maven.apache.org</url>
+    <description>Test service first integration with Swagger</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -13,13 +17,11 @@
         <version>2.0.0.M3</version>
     </parent>
 
-    <name>sandbox-swagger</name>
-    <url>http://maven.apache.org</url>
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
         <swagger-annotations-version>1.5.8</swagger-annotations-version>
+        <lombok.version>1.16.18</lombok.version>
     </properties>
 
     <dependencies>
@@ -35,6 +37,15 @@
         </dependency>
 
         <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+
+
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>3.8.1</version>
@@ -45,49 +56,14 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>io.swagger</groupId>
-                <artifactId>swagger-codegen-maven-plugin</artifactId>
-                <version>2.2.3</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <configuration>
-                            <inputSpec>src/main/api/api.yaml</inputSpec>
-                            <language>spring</language>
-                            <generateApiTests>false</generateApiTests>
-                            <generateModelTests>false</generateModelTests>
-                            <generateApiDocumentation>false</generateApiDocumentation>
-                            <generateSupportingFiles>false</generateSupportingFiles>
-                            <output>.</output>
-                            <skipOverwrite>true</skipOverwrite>
-                            <configOptions>
-                                <sourceFolder>src/main/java</sourceFolder>
-                                <dateLibrary>java8</dateLibrary>
-                            </configOptions>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
                 <groupId>com.github.kongchen</groupId>
                 <artifactId>swagger-maven-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>3.1.1</version>
                 <configuration>
                     <apiSources>
                         <apiSource>
                             <springmvc>true</springmvc>
+                            <schemes>http,https</schemes>
                             <locations>org.dgc.sandbox.swagger2</locations>
                             <info>
                                 <title>Test</title>
@@ -95,11 +71,8 @@
                             </info>
                         </apiSource>
                     </apiSources>
-                    <skipSwaggerGeneration>false</skipSwaggerGeneration>
-                    <swaggerDirectory>generated/swagger-ui</swaggerDirectory>
+                    <swaggerDirectory>${project.build.outputDirectory}</swaggerDirectory>
                     <attachSwaggerArtifact>true</attachSwaggerArtifact>
-                    <swaggerFileName>api</swaggerFileName>
-                    <outputFormats>yaml</outputFormats>
                 </configuration>
                 <executions>
                     <execution>
@@ -109,7 +82,6 @@
                         </goals>
                     </execution>
                 </executions>
-
             </plugin>
         </plugins>
     </build>
