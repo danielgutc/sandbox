@@ -83,7 +83,7 @@
             <plugin>
                 <groupId>com.github.kongchen</groupId>
                 <artifactId>swagger-maven-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>3.1.1</version>
                 <configuration>
                     <apiSources>
                         <apiSource>
@@ -93,13 +93,13 @@
                                 <title>Test</title>
                                 <version>v1</version>
                             </info>
+                            <skipSwaggerGeneration>false</skipSwaggerGeneration>
+                            <swaggerDirectory>generated/swagger-ui</swaggerDirectory>
+                            <attachSwaggerArtifact>true</attachSwaggerArtifact>
+                            <swaggerFileName>api</swaggerFileName>
+                            <outputFormats>yaml</outputFormats>
                         </apiSource>
                     </apiSources>
-                    <skipSwaggerGeneration>false</skipSwaggerGeneration>
-                    <swaggerDirectory>generated/swagger-ui</swaggerDirectory>
-                    <attachSwaggerArtifact>true</attachSwaggerArtifact>
-                    <swaggerFileName>api</swaggerFileName>
-                    <outputFormats>yaml</outputFormats>
                 </configuration>
                 <executions>
                     <execution>

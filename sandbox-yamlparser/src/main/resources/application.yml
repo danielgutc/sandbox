@@ -1,0 +1,9 @@
+application:
+  name: test
+spark:
+  cassandra:
+    connection:
+      host: spark-vm
+      port: 9042
+  executor:
+    memory: 2g
