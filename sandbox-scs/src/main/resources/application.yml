@@ -10,5 +10,9 @@ spring:
                     destination: mdm-readings-csv-input
                     producer:
                         headerMode: raw
+            kafka:
+                binder:
+                    brokers: 192.168.0.36
+                    zkNodes: 192.168.0.36
 server:
     port: 8081
