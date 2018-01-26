@@ -1,37 +1,40 @@
 package org.dgc.sandbox.nlp.opennlp;
 
 import opennlp.tools.doccat.*;
+import opennlp.tools.formats.NameSampleDataStreamFactory;
+import opennlp.tools.namefind.*;
+import opennlp.tools.tokenize.SimpleTokenizer;
+import opennlp.tools.tokenize.Tokenizer;
+import opennlp.tools.util.PlainTextByLineStream;
+import opennlp.tools.util.Span;
 import opennlp.tools.util.TrainingParameters;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Scanner;
 
+/**
+ * NLP using Open NLP
+ */
 public class OpenNLP
 {
+    /**
+     * Train a model and use it for text classification.
+     *
+     * @throws IOException
+     */
     public void classify() throws IOException
     {
-/*        NaiveBayesClassifierFactory nbcf = new NaiveBayesClassifierFactory();
-        Dataset<String, String> ds = new Dataset<>();
-        List<String> iGreeting = Arrays.asList("Hello", "Hi", "Hola");
-        //List<String> iGoodbye = Arrays.asList("Good bye", "Have a nice day", "Take care");
-        ds.add(iGreeting, "greeting");
-        //ds.add(iGoodbye, "goodbye");
-        ds.toSummaryStatistics();
-
-        
-        NaiveBayesClassifier naivesClassifier = nbcf.trainClassifier(ds);
-        naivesClassifier.print();
-        BasicDatum<String, String> bd = new BasicDatum<String, String>(Arrays.asList("Hi"));
-        ClassicCounter c = naivesClassifier.scoresOf(bd);
-        c.toString();*/
-
         TrainingParameters tp = new TrainingParameters();
         tp.put(TrainingParameters.ITERATIONS_PARAM, 100);
         tp.put(TrainingParameters.CUTOFF_PARAM, 0);
 
         DoccatFactory doccatFactory = new DoccatFactory();
-        DoccatModel model = DocumentCategorizerME.train("en", new InputObjectStream(), tp, doccatFactory);
+        DoccatModel model = DocumentCategorizerME.train("en", new IntentsObjectStream(), tp, doccatFactory);
 
         DocumentCategorizerME categorizerME = new DocumentCategorizerME(model);
 
@@ -51,6 +54,36 @@ public class OpenNLP
                 System.out.println(String.format("Model prediction for '%s' is: '%s'", input, predictedCategory));
             }
         }
+    }
 
+    public void nameEntityRecognition() throws IOException
+    {
+        NameSampleDataStream nameSampleDataStream = new NameSampleDataStream(new NerObjectStream("activities"));
+        TrainingParameters tp = new TrainingParameters();
+        tp.put(TrainingParameters.ITERATIONS_PARAM, 100);
+        tp.put(TrainingParameters.CUTOFF_PARAM, 0);
+        TokenNameFinderFactory tokenNameFinderFactory = new TokenNameFinderFactory();
+
+        TokenNameFinderModel model = NameFinderME.train("en", "activity", nameSampleDataStream, tp, tokenNameFinderFactory);
+        NameFinderME finderME = new NameFinderME(model);
+        Tokenizer tokenizer = SimpleTokenizer.INSTANCE;
+
+        try (Scanner scanner = new Scanner(System.in))
+        {
+            while (true)
+            {
+                String input = scanner.nextLine();
+                if (input.equals("exit"))
+                {
+                    break;
+                }
+
+                Span[] spans = finderME.find(tokenizer.tokenize(input));
+                for (Span span: spans)
+                {
+                    System.out.println(String.format("'%s' - %s", input.substring(span.getStart(), span.getEnd()), span.getType()));
+                }
+            }
+        }
     }
 }

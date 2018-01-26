@@ -9,6 +9,7 @@ public class App
     public static void main(String[] args) throws IOException
     {
         OpenNLP openNLP = new OpenNLP();
-        openNLP.classify();
+        //openNLP.classify();
+        openNLP.nameEntityRecognition();
     }
 }
