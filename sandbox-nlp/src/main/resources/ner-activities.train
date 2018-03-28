@@ -1,9 +1,5 @@
-<START:activity> running <END>
-<START:activity> swimming <END>
-<START:activity> biking <END>
-<START:activity> skiing <END>
-<START:activity> football <END>
-<START:food> pizza <END>
-<START:food> burger <END>
-<START:food> pasta <END>
-<START:food> soup <END>
+I like <START:activity> running <END> in the street
+I go <START:activity> swimming <END> every Saturday
+<START:activity> biking <END> is my favorite sport
+I dont like <START:activity> skiing <END>
+I watch <START:activity> football <END> with friends

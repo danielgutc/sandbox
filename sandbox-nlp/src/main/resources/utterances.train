@@ -1,0 +1,11 @@
+add_activity | add 45 minutes <START:activity> running <END> in the street
+add_activity | i went <START:activity> swimming <END> 1 hour
+add_activity | <START:activity> arm wrestling <END> 2 hours
+add_activity | <START:activity> skiing <END> the whole weekend
+add_activity | played <START:activity> alpine skiing <END> 2 hours
+add_activity | went to <START:activity> gym <END> 1 hour
+
+track_medicine | i took the <START:time> 9am <END> <START:drug> pills <END>
+track_medicine | took <START:drug> meds <END> at <START:time> 8pm <END>
+track_medicine | took <START:drug> aspirine <END> <START:time> just now <END>
+track_medicine | i just took 500mg <START:drug> paracetamol <END>

@@ -19,8 +19,11 @@ public class IntentsObjectStream implements ObjectStream<DocumentSample>
 
     public IntentsObjectStream() throws IOException
     {
-        lines = Arrays.stream(Files.readAllLines(Paths.get(this.getClass().getResource("/intents.train").getFile().replaceFirst("/", ""))).toArray(new String[0]))
-            .filter(l -> l.length() > 0).collect(Collectors.toList()).toArray(new String[0]);
+        lines = Files.readAllLines(Paths.get(this.getClass().getResource("/utterances.train").getFile().replaceFirst("/", ""))).stream()
+                .filter(l -> l.length() > 0)
+                .map(l -> l.replaceAll("<START(:([^:>\\s]*))?>", ""))
+                .collect(Collectors.toList())
+                .toArray(new String[0]);
         count = lines.length - 1;
     }
 

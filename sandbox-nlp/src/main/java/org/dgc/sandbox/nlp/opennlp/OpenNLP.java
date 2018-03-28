@@ -58,13 +58,13 @@ public class OpenNLP
 
     public void nameEntityRecognition() throws IOException
     {
-        NameSampleDataStream nameSampleDataStream = new NameSampleDataStream(new NerObjectStream("activities"));
+        NameSampleDataStream nameSampleDataStream = new NameSampleDataStream(new NerObjectStream());
         TrainingParameters tp = new TrainingParameters();
         tp.put(TrainingParameters.ITERATIONS_PARAM, 100);
         tp.put(TrainingParameters.CUTOFF_PARAM, 0);
         TokenNameFinderFactory tokenNameFinderFactory = new TokenNameFinderFactory();
 
-        TokenNameFinderModel model = NameFinderME.train("en", "activity", nameSampleDataStream, tp, tokenNameFinderFactory);
+        TokenNameFinderModel model = NameFinderME.train("en", "add_activity", nameSampleDataStream, tp, tokenNameFinderFactory);
         NameFinderME finderME = new NameFinderME(model);
         Tokenizer tokenizer = SimpleTokenizer.INSTANCE;
 
@@ -81,7 +81,15 @@ public class OpenNLP
                 Span[] spans = finderME.find(tokenizer.tokenize(input));
                 for (Span span: spans)
                 {
-                    System.out.println(String.format("'%s' - %s", input.substring(span.getStart(), span.getEnd()), span.getType()));
+                    StringBuilder sb = new StringBuilder();
+                    for (int i = span.getStart(); i < span.getEnd(); i++ )
+                    {
+                        if (i < input.split(" ").length)
+                        {
+                            sb.append(input.split(" ")[i]).append(" ");
+                        }
+                    }
+                    System.out.println(String.format("'%s' - %s", sb.toString(), span.getType()));
                 }
             }
         }

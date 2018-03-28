@@ -16,10 +16,3 @@ post_ticket	new ticket "la la la"
 post_ticket	can you please create a new task with title "new jira task"
 post_ticket	new task with title "Hello my friend"
 post_ticket	add new task "another example"
-
-insult	fuck you
-insult	fuck off
-insult	go fuck yourself
-insult	faggot
-insult	motherfucker
-insult	son of a bitch

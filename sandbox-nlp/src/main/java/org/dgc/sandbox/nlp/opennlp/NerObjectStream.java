@@ -19,11 +19,12 @@ public class NerObjectStream implements ObjectStream<String>
     private int count;
     private String type;
 
-    public NerObjectStream(String type) throws IOException
+    public NerObjectStream() throws IOException
     {
         this.type = type;
-        lines = Arrays.stream(Files.readAllLines(Paths.get(this.getClass().getResource("/ner-" + this.type + ".train").getFile().replaceFirst("/", ""))).toArray(new String[0]))
+        lines = Files.readAllLines(Paths.get(this.getClass().getResource("/utterances.train").getFile().replaceFirst("/", ""))).stream()
                 .filter(l -> l.length() > 0)
+                .map(l -> l.split("\\|")[1].trim())
                 .collect(Collectors.toList())
                 .toArray(new String[0]);
 
