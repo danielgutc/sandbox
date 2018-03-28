@@ -1,0 +1,10 @@
+server:
+  port: 8081
+endpoints:
+  health:
+    enabled: true
+application:
+  properties:
+    debug: true
+    security:
+      secret: 4a6c201b27aced20eb762243138439b3
