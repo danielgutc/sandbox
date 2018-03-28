@@ -17,7 +17,10 @@ import java.util.Date;
 @RestController
 public class SecurityController
 {
-    public static final int EXP_LENGTH = 86400000;
+    private static final int EXP_LENGTH = 86400000;
+    private static final String TOKEN_PREFIX = "Bearer";
+    private static final String HEADER_STRING = "Authorization";
+
     @Autowired
     private SecurityService securityService;
 
@@ -52,7 +55,7 @@ public class SecurityController
                     .signWith(SignatureAlgorithm.HS512, secret)
                     .compact();
 
-            return ResponseEntity.ok(jwt);
+            return ResponseEntity.status(HttpStatus.OK).header(HEADER_STRING, TOKEN_PREFIX + " " + jwt).build();
         }
         catch (Exception ex)
         {
