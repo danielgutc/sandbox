@@ -1,19 +1,27 @@
 package org.dgc.sandbox.jwt.server.service;
 
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.dgc.sandbox.jwt.server.domain.User;
-import org.dgc.sandbox.jwt.server.repository.SecurityRepository;
+import org.dgc.sandbox.jwt.server.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.net.UnknownServiceException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Date;
 
 @Service
 public class SecurityService
 {
+    private static final int EXP_LENGTH = 86400000;
+
     @Autowired
-    private SecurityRepository repository;
+    private UserRepository userRepository;
+
+    @Value("${application.properties.security.secret}")
+    private String secret;
 
     public void registerUser(User user)
     {
@@ -22,7 +30,7 @@ public class SecurityService
             user.setId(user.getName());
             user.setPassword(new String(MessageDigest.getInstance("MD5").digest(user.getPassword().getBytes())));
 
-            repository.save(user);
+            userRepository.save(user);
         }
         catch (NoSuchAlgorithmException e)
         {
@@ -30,9 +38,9 @@ public class SecurityService
         }
     }
 
-    public User authenticateUser(String name, String password)
+    public String authenticateUser(String name, String password)
     {
-        User user = repository.findById(name).orElseThrow();
+        User user = userRepository.findById(name).orElseThrow();
 
         try
         {
@@ -46,6 +54,10 @@ public class SecurityService
             e.printStackTrace();
         }
 
-        return user;
+        return Jwts.builder()
+                .setSubject(user.getName())
+                .setExpiration(new Date(System.currentTimeMillis() + EXP_LENGTH))
+                .signWith(SignatureAlgorithm.HS512, secret)
+                .compact();
     }
 }
