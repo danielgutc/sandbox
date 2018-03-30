@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Mono;
 
 import java.util.Date;
 
@@ -23,32 +24,32 @@ public class SecurityController
     private SecurityService securityService;
 
     @PostMapping("/signup")
-    public ResponseEntity signUp(@RequestBody User user)
+    public Mono<ResponseEntity> signUp(@RequestBody User user)
     {
         try
         {
             securityService.registerUser(user);
 
-            return ResponseEntity.ok().build();
+            return Mono.just(ResponseEntity.ok().build());
         }
         catch (Exception ex)
         {
-            return ResponseEntity.status(400).build();
+            return Mono.just(ResponseEntity.status(400).build());
         }
     }
 
     @PostMapping("/signin")
-    public ResponseEntity signIn(@RequestBody User user)
+    public Mono<ResponseEntity> signIn(@RequestBody User user)
     {
         try
         {
             String token = securityService.authenticateUser(user.getName(), user.getPassword());
 
-            return ResponseEntity.status(HttpStatus.OK).header(HEADER_STRING, TOKEN_PREFIX + " " + token).build();
+            return Mono.just(ResponseEntity.status(HttpStatus.OK).header(HEADER_STRING, TOKEN_PREFIX + " " + token).build());
         }
         catch (Exception ex)
         {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            return Mono.just(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
         }
     }
 }

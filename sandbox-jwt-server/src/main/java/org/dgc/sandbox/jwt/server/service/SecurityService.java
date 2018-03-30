@@ -60,4 +60,28 @@ public class SecurityService
                 .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
     }
+
+    /*public Mono<String> authenticateUser(String name, String password)
+    {
+        return userRepository.findById(name).map(u ->
+        {
+            try
+            {
+                if (!u.getPassword().equals(new String(MessageDigest.getInstance("MD5").digest(password.getBytes()))))
+                {
+                    throw new RuntimeException("Incorrect password");
+                }
+            }
+            catch (NoSuchAlgorithmException e)
+            {
+                e.printStackTrace();
+            }
+
+            return Jwts.builder()
+                    .setSubject(u.getName())
+                    .setExpiration(new Date(System.currentTimeMillis() + EXP_LENGTH))
+                    .signWith(SignatureAlgorithm.HS512, secret)
+                    .compact();
+        });
+    }*/
 }
