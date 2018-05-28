@@ -1,0 +1,18 @@
+hotfolder:
+  path: c:\Temp\hotfolder
+spring:
+    application:
+        name: mdm-readings-csv-input
+    cloud:
+        stream:
+            bindings:
+                output:
+                    destination: mdm-readings-csv-input
+                    producer:
+                        headerMode: raw
+            kafka:
+                binder:
+                    brokers: 192.168.0.36
+                    zkNodes: 192.168.0.36
+server:
+    port: 8081

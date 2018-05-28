@@ -1,0 +1,18 @@
+greeting	good morning
+greeting	good afternoon
+greeting	hello
+greeting	hello my friend
+greeting	hola
+greeting	hola mi amigo
+
+goodbye	goodbye
+goodbye	see you later
+goodbye	hasta la vista
+goodbye	bye
+
+post_ticket	create jira ticket with title "Test"
+post_ticket	add ticket "This is a ticket"
+post_ticket	new ticket "la la la"
+post_ticket	can you please create a new task with title "new jira task"
+post_ticket	new task with title "Hello my friend"
+post_ticket	add new task "another example"
