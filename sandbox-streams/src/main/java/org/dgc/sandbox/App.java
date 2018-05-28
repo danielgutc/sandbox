@@ -8,8 +8,11 @@ public class App
 {
     public static void main( String[] args )
     {
-        Closures closures = new Closures();
+        String s = "this is a test";
+        System.out.println(s.getBytes());
 
-        closures.testReturn();
+        //Closures closures = new Closures();
+
+        //closures.testReturn();
     }
 }
